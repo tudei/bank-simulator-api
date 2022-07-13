@@ -10,7 +10,7 @@ CREATE TABLE user(
     e_mail VARCHAR(75) NOT NULL,
     nif INT NOT NULL,
     code INT NOT NULL,
-    passworld VARCHAR(75) NOT NULL,
+    user_password VARCHAR(75) NOT NULL,
     balance DECIMAL(10,4) DEFAULT 0,
     account_number INT NOT NULL
 
