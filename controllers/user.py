@@ -1,4 +1,5 @@
 from db.db_connector import SQLite_Connector
+from schemas.schemas import Schema
 
 import random
 
@@ -12,7 +13,7 @@ class User_Controller(SQLite_Connector):
         if id:
             return self.execute_sql_query(f"SELECT * FROM user WHERE id={id}")
         
-        return self.execute_sql_query(f"SELECT * FROM user")
+        return self.execute_sql_query(f"SELECT * FROM user", Schema.user)
     
     def verify_account_number(self, nr_account: int) -> bool:
         all_user = self.get_user()
@@ -32,12 +33,11 @@ class User_Controller(SQLite_Connector):
                 {self.generate_account_number()}, '{user_type}'
             ); 
             """
-        self.execute_sql_query(sql_query)
+        self.execute_sql_query(sql_query, Schema.user)
     
     def delete_user(self, id: int) -> bool:
         sql_query = f""" DELETE FROM user WHERE id={id}"""
-        
-        self.execute_sql_query(sql_query)
+        self.execute_sql_query(sql_query, Schema.user)
 
         
     def update_user_password(self, new_password: str) -> bool:
@@ -52,5 +52,4 @@ class User_Controller(SQLite_Connector):
         UPDATE user SET balance = {balance} 
         WHERE account_number={account_number}
         """
-        self.execute_sql_query(sql_query)
-
+        self.execute_sql_query(sql_query, Schema.user)

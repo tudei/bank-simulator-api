@@ -12,10 +12,8 @@ class SQLite_Connector:
         self.connection = None
         self.sqlite_connect()
         self.cursor = self.connection.cursor()
-
         self.create_database()
 
-    
     def create_database(self) -> None:
         sql_file = open("db/bank_simulator.sql")
         sql_as_string = sql_file.read()
@@ -37,14 +35,13 @@ class SQLite_Connector:
             print(colored("[INFO] Database created", "blue", attrs=["bold"]))
             self.connection = conn    
     
-    def execute_sql_query(self, query: str) -> list:
+    def execute_sql_query(self, query: str, apply_data_schema) -> list:
         results = self.cursor.execute(query)
         self.connection.commit()
 
-        return results
+        return apply_data_schema(results.fetchall())
     
     def close_db(self) -> None:
         self.connection.commit()
         self.connection.close()
        
-# db = SQLite_Connector()

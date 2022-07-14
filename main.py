@@ -13,8 +13,7 @@ api = Api(app)
 class Bank_Simulator(Resource):
 
     def get(self):
-
-        return jsonify({"message": "ok ok om ononwqeofgnioqw efjioq weof qweoj f"})
+        return "Bank Simulator Flask RestFull API"
 
 
 class Bank_Simulator_Restfull_API():
