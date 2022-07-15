@@ -5,6 +5,7 @@ from flask_restful import Api, Resource, reqparse
 
 from routes.user import Users
 from routes.user import User
+from routes.transfers import Transfers
 
 
 app = Flask(__name__)
@@ -24,6 +25,7 @@ class Bank_Simulator_Restfull_API():
         api.add_resource(Bank_Simulator, "/bankSimulator")
         api.add_resource(Users, "/users")
         api.add_resource(User, "/user/<int:id>")
+        api.add_resource(Transfers, "/transfers")
         app.run(debug=True)
 
 
