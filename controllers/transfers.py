@@ -1,6 +1,7 @@
+import random
+
 from db.db_connector import SQLite_Connector
 from schemas.schemas import Schema
-
 
 
 class Transfers_Controller(SQLite_Connector):
@@ -15,7 +16,8 @@ class Transfers_Controller(SQLite_Connector):
 
     
     def create_new(self, id_sender: int, id_receiver: int ,amount: float, 
-                    transfer_date: str, transfer_code:str) -> list:
+                    transfer_date: str) -> list:
+        transfer_code = str(random.randint(1000000000, 99999999999))
         sql_query = f"""
                     INSERT INTO money_transfer(
                        id_sender, id_receiver, amount, transfer_date, transfer_code
