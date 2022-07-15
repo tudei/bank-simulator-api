@@ -11,7 +11,7 @@ class User_Controller(SQLite_Connector):
     
     def get_user(self, id=None) -> list:
         if id:
-            return self.execute_sql_query(f"SELECT * FROM user WHERE id={id}")
+            return self.execute_sql_query(f"SELECT * FROM user WHERE id={id}", Schema.user)
         
         return self.execute_sql_query(f"SELECT * FROM user", Schema.user)
     
@@ -34,6 +34,7 @@ class User_Controller(SQLite_Connector):
             ); 
             """
         self.execute_sql_query(sql_query, Schema.user)
+        return self.get_user()[0]
     
     def delete_user(self, id: int) -> bool:
         sql_query = f""" DELETE FROM user WHERE id={id}"""
