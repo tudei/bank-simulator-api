@@ -43,9 +43,9 @@ class User(Resource):
     def get(self, id):
         return jsonify(user_controller.get_user(id))
 
-    def put(self, id):
-        pass
-
+    def put(self, id, new_password):
+        new_password = new_password.lower()
+        return jsonify(user_controller.update_user_password(new_password)(id))
     def delete(self, id):
         return jsonify(user_controller.delete_user(id))
     
