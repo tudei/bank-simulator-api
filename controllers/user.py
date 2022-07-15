@@ -41,12 +41,12 @@ class User_Controller(SQLite_Connector):
         self.execute_sql_query(sql_query, Schema.user)
 
         
-    def update_user_password(self, new_password: str) -> bool:
+    def update_user_password(self, id: int, new_password: str) -> bool:
         sql_query = f"""
             UPDATE user SET user_password='{new_password}'
             WHERE id={id}
             """
-        self.execute_sql_query(sql_query)
+        self.execute_sql_query(sql_query, Schema.user)
     
     def update_user_balance(self, account_number: int, balance: float) -> bool:
         sql_query = f"""
