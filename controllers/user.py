@@ -1,5 +1,9 @@
+from matplotlib.pyplot import text
+from regex import R
 from db.db_connector import SQLite_Connector
 from schemas.schemas import Schema
+from src.error_message import Error_Message, get_error
+from src.success_message import Success_Message
 
 import random
 
@@ -23,6 +27,7 @@ class User_Controller(SQLite_Connector):
     
     def create_new(self, first_name: str, last_name: str, age: int, e_mail: str, 
                     balance: float, nif: int, user_password: str, user_type="Stander") -> list:
+
         sql_query = f"""
             INSERT INTO user (
                 first_name, last_name, age, e_mail, nif, 
@@ -33,12 +38,27 @@ class User_Controller(SQLite_Connector):
                 {self.generate_account_number()}, '{user_type}'
             ); 
             """
-        self.execute_sql_query(sql_query, Schema.user)
-        return self.get_user()[0]
+        
+        try:
+            self.execute_sql_query(sql_query, Schema.user)
+        except Exception as error:
+            error_suf = f"{error}".split(".")
+            return Schema.api_response(
+                status=500,
+                error_message=[f"{get_error(error_suf[1])}"]
+            )
+
+        new_user = self.get_user()[-1]
+
+        return Schema.api_response(
+            status=200, 
+            data=new_user, 
+            success_message=[Success_Message.new_user.value]
+        )
     
     def delete_user(self, id: int) -> bool:
         sql_query = f""" DELETE FROM user WHERE id={id}"""
-        self.execute_sql_query(sql_query, Schema.user)
+        return self.execute_sql_query(sql_query, Schema.user)
 
         
     def update_user_password(self, id: int, new_password: str) -> bool:
@@ -46,11 +66,11 @@ class User_Controller(SQLite_Connector):
             UPDATE user SET user_password='{new_password}'
             WHERE id={id}
             """
-        self.execute_sql_query(sql_query, Schema.user)
+        return self.execute_sql_query(sql_query, Schema.user)
     
     def update_user_balance(self, account_number: int, balance: float) -> bool:
         sql_query = f"""
         UPDATE user SET balance = {balance} 
         WHERE account_number={account_number}
         """
-        self.execute_sql_query(sql_query, Schema.user)
+        return self.execute_sql_query(sql_query, Schema.user)

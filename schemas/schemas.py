@@ -33,12 +33,12 @@ class Schema:
             } for dt in data]
     
     @staticmethod
-    def api_response(status: int, success_message: list, error_message: list, data: list) -> list:
+    def api_response(status: int, data=[], success_message=[], error_message=[]) -> list:
         
         return {
             "status": status,
-            "success_message": [{index: message} for index, message in enumerate(success_message)],
-            "error_message": [{index: error} for index, error in enumerate(error_message)],
+            "success_message": [{index+1: message} for index, message in enumerate(success_message)],
+            "error_message": [{index+1: error} for index, error in enumerate(error_message)],
             "data": data
         }
  
