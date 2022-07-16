@@ -18,6 +18,8 @@ edit_password_args = reqparse.RequestParser()
 edit_password_args.add_argument("old_password", type=str, required=True, help="Old Password is required.")
 edit_password_args.add_argument("new_password", type=str, required=True, help="New Password is required.")
 
+admin_password_args = reqparse.RequestParser()
+admin_password_args.add_argument("old_password", type=str, required=True, help="Old Password is required.")
 
 user_controller = User_Controller()
 
@@ -59,5 +61,6 @@ class User(Resource):
 
     def delete(self, id):
 
-        return jsonify(user_controller.delete_user(id))
+        args = admin_password_args.parse_args()
+        return jsonify(user_controller.delete_user(id, args["admin_password"]))
     

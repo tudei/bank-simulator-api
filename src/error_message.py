@@ -8,6 +8,7 @@ class Error_Message(Enum):
     negative_balance = "Amount grather than the account balance"
     equal_password = "Old and New password are the both the same"
     internal_error = "Server internal Error"
+    admin_password_error = "The Admin Password do not match"
 
 
 def get_error(error_suf: str) -> str:

@@ -1,6 +1,5 @@
-from matplotlib.pyplot import text
 from regex import R
-from db.db_connector import SQLite_Connector
+from database.db_connector import SQLite_Connector
 from schemas.schemas import Schema
 from src.error_message import Error_Message, get_error
 from src.success_message import Success_Message
@@ -30,12 +29,12 @@ class User_Controller(SQLite_Connector):
 
         sql_query = f"""
             INSERT INTO user (
-                first_name, last_name, age, e_mail, nif, 
-                code, user_password, balance, account_number, user_type
+                first_name, last_name, age, e_mail, nif, code, user_password, 
+                balance, account_number, user_type, account_state
             ) VALUES (
                 '{first_name}', '{last_name}', {age}, '{e_mail}', {nif}, 
                 {random.randint(1000, 9999)}, '{user_password}', {balance}, 
-                {self.generate_account_number()}, '{user_type}'
+                {self.generate_account_number()}, '{user_type}', 1
             ); 
             """
         
@@ -56,9 +55,20 @@ class User_Controller(SQLite_Connector):
             success_message=[Success_Message.new_user.value]
         )
     
-    def delete_user(self, id: int) -> bool:
-        sql_query = f""" DELETE FROM user WHERE id={id}"""
-        return self.execute_sql_query(sql_query, Schema.user)
+    def delete_user(self, id: int, admin_password: str) -> bool:
+        user = self.get_user(id)
+        if user["user_password"] == admin_password:
+            sql_query = f""" DELETE FROM user WHERE id={id}"""
+            return Schema.api_response(
+                status=200,
+                data=self.execute_sql_query(sql_query, Schema.user),
+                success_message=[Success_Message.deleted_user]
+            )
+        
+        return Schema.api_response(
+            status=503,
+            error_message=[Error_Message.admin_password_error]
+        )
 
         
     def update_user_password(self, id: int, new_password: str) -> bool:
