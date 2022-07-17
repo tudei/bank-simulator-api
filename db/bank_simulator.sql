@@ -16,10 +16,10 @@ CREATE TABLE IF NOT EXISTS user(
 CREATE TABLE IF NOT EXISTS money_transfer(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     id_sender INTEGER NOT NULL,
-    id_receiver INTEGER NOT NULL,
+    account_number INTEGER NOT NULL,
     amount DECIMAL(10,4) NOT NULL,
     transfer_date DATE NOT NUll,
     transfer_code VARCHAR(75) NOT NULL,
     FOREIGN KEY (id_sender) REFERENCES user (id),
-    FOREIGN KEY (id_receiver) REFERENCES user (id)
+    FOREIGN KEY (account_number) REFERENCES user (account_number)
 );

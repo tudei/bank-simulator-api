@@ -24,7 +24,7 @@ class Schema:
             {
                 "id": dt[0],
                 "id_sender":dt[1],
-                "id_receiver":dt[2],
+                "account_number":dt[2],
                 "amount":dt[3],
                 "transfer_date":dt[4], 
                 "transfer_code ":dt[5],      

@@ -57,3 +57,7 @@ class User_Controller(SQLite_Connector):
         
     def user_exist(id: int) -> None:
         return 
+
+    def get_user_by_account_number(self, account_number: int ) -> None:
+        sql_querry = f"SELECT * FROM user WHERE account_number = {account_number}"
+        return self.execute_sql_query(sql_querry, Schema.user)
