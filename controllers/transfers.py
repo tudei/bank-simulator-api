@@ -9,7 +9,7 @@ class Transfers_Controller(SQLite_Connector):
     def __init__(self, db_name='db/bank_simulator.db') -> None:
         super().__init__(db_name)
 
-    def get_user(self, id=None) -> list:
+    def get_transfers(self, id=None) -> list:
         if id:
             return self.execute_sql_query(f"SELECT * FROM money_transfer WHERE id={id}", Schema.tranfer) 
         return self.execute_sql_query(f"SELECT * FROM money_transfer", Schema.tranfer)      
@@ -25,4 +25,7 @@ class Transfers_Controller(SQLite_Connector):
                     '{transfer_date}','{transfer_code}')
         """
         self.execute_sql_query(sql_query, Schema.tranfer)
-        return
+
+        return self.get_transfers()[-1]
+
+    
