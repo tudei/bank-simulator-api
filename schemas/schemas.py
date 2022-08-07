@@ -3,6 +3,7 @@ class Schema:
     
     @staticmethod
     def user(data: tuple) -> list:
+        
         return [
             {
                 "id": dt[0],
@@ -16,10 +17,12 @@ class Schema:
                 "balance": dt[8],
                 "account_number": dt[9], 
                 "user_type": dt[10],
+                "account_state": dt[11]
             } for dt in data]
     
     @staticmethod
     def tranfer(data: tuple) -> list:
+        
         return [
             {
                 "id": dt[0],
@@ -29,4 +32,14 @@ class Schema:
                 "transfer_date":dt[4], 
                 "transfer_code ":dt[5],      
             } for dt in data]
-            
+    
+    @staticmethod
+    def api_response(status: int, data=[], success_message=[], error_message=[]) -> list:
+        
+        return {
+            "status": status,
+            "success_message": [{index+1: message} for index, message in enumerate(success_message)],
+            "error_message": [{index+1: error} for index, error in enumerate(error_message)],
+            "data": data
+        }
+ 
