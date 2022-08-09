@@ -21,6 +21,10 @@ edit_password_args.add_argument("new_password", type=str, required=True, help="N
 admin_password_args = reqparse.RequestParser()
 admin_password_args.add_argument("old_password", type=str, required=True, help="Old Password is required.")
 
+user_delete_arg = reqparse.RequestParse()
+user_delete_arg.add_argument("user_delete", trype=str, required=True, help= "Id de usuario necessario.")
+
+
 user_controller = User_Controller()
 
 
