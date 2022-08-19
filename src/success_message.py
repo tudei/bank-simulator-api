@@ -8,3 +8,4 @@ class Success_Message(Enum):
     transfer_success = "Transfer made successfully"
     transfer_success_1 = "Transfer made successfully 1"
     
+    

@@ -56,18 +56,17 @@ class User_Controller(SQLite_Connector):
         )
     
     def delete_user(self, id: int, admin_password: str) -> bool:
-        user = self.get_user(id)
+        user = self.get_user(id)[0]
         if user["user_password"] == admin_password:
-            sql_query = f""" DELETE FROM user WHERE id={id}"""
             return Schema.api_response(
                 status=200,
-                data=self.execute_sql_query(sql_query, Schema.user),
-                success_message=[Success_Message.deleted_user]
+                data=self.execute_sql_query(f"""DELETE FROM user WHERE id={id}""", Schema.user),
+                success_message=[Success_Message.deleted_user.value]
             )
         
         return Schema.api_response(
             status=503,
-            error_message=[Error_Message.admin_password_error]
+            error_message=[Error_Message.admin_password_error.value]
         )
 
         
