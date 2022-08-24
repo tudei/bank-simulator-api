@@ -5,6 +5,7 @@ from src.error_message import Error_Message, get_error
 from src.success_message import Success_Message
 
 import random
+import bcrypt
 
 
 class User_Controller(SQLite_Connector):
@@ -27,13 +28,15 @@ class User_Controller(SQLite_Connector):
     def create_new(self, first_name: str, last_name: str, age: int, e_mail: str, 
                     balance: float, nif: int, user_password: str, user_type="Stander") -> list:
 
+        hash_password = bcrypt.hashpw(user_password.encode("utf-8"),bcrypt.gensalt())
+
         sql_query = f"""
             INSERT INTO user (
                 first_name, last_name, age, e_mail, nif, code, user_password, 
                 balance, account_number, user_type, account_state
             ) VALUES (
                 '{first_name}', '{last_name}', {age}, '{e_mail}', {nif}, 
-                {random.randint(1000, 9999)}, '{user_password}', {balance}, 
+                {random.randint(1000, 9999)}, '{hash_password.decode("utf-8")}', {balance}, 
                 {self.generate_account_number()}, '{user_type}', 1
             ); 
             """
