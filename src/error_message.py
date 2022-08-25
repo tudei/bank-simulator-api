@@ -9,7 +9,7 @@ class Error_Message(Enum):
     equal_password = "Old and New password are the both the same"
     internal_error = "Server internal Error"
     admin_password_error = "The Admin Password do not match"
-
+    user_delete_error = "That user do not exist"
 
 def get_error(error_suf: str) -> str:
     return [

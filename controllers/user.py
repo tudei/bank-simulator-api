@@ -84,3 +84,5 @@ class User_Controller(SQLite_Connector):
         WHERE account_number={account_number}
         """
         return self.execute_sql_query(sql_query, Schema.user)
+
+    
