@@ -32,6 +32,14 @@ CREATE TABLE IF NOT EXISTS money_transfer(
     FOREIGN KEY (id_receiver) REFERENCES user (id)
 );
 
+CREATE TABLE IF NOT EXISTS money_withdrawal(
+    id INTEGER PRIMARY KEY,
+    id_user INTEGER NOT NULL,
+    amount DECIMAL(10,4) NOT NULL,
+    withdrawal_date DATE NOT NUll,
+    FOREIGN KEY (id_user) REFERENCES user (id)
+);
+
 
 INSERT INTO bank_admin (username, e_mail, user_password) 
 VALUES ("admin", "admin@bank.cv", "1234"); 
