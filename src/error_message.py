@@ -3,6 +3,8 @@ from enum import Enum
 class Error_Message(Enum):
     
     id_not_exist = "This user ID doesn't exist"
+    user_not_exist = "This user doesn't exist"
+    there_not_existent_users = "There is no registred users on this app"
     e_mail_already_exist = "This email address is already in use"
     nif_already_exist = "This NIF is used"
     negative_balance = "Amount grather than the account balance"
