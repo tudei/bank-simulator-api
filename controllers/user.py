@@ -5,6 +5,7 @@ from src.error_message import Error_Message, get_error
 from src.success_message import Success_Message
 
 import random
+import bcrypt
 
 
 class User_Controller(SQLite_Connector):
@@ -13,7 +14,9 @@ class User_Controller(SQLite_Connector):
         super().__init__()
 
     def get_user(self, id=None) -> list:
+        
         users = None
+
         if id:
             users = self.execute_sql_query(
                 f"SELECT * FROM user WHERE id={id}", Schema.user)
@@ -24,8 +27,8 @@ class User_Controller(SQLite_Connector):
             return Schema.api_response(status=200, error_message=[
                 Error_Message.user_not_exist.value])
         elif not id and not users:
-            return Schema.api_response(status=200, 
-                error_message=Error_Message.there_not_existent_users.value)
+            return Schema.api_response(status=200,
+                                       error_message=Error_Message.there_not_existent_users.value)
         return Schema.api_response(status=200, data=users)
 
     def verify_account_number(self, nr_account: int) -> bool:
@@ -37,13 +40,16 @@ class User_Controller(SQLite_Connector):
     def create_new(self, first_name: str, last_name: str, age: int, e_mail: str,
                    balance: float, nif: int, user_password: str, user_type="Stander") -> list:
 
+        hash_password = bcrypt.hashpw(
+            user_password.encode("utf-8"), bcrypt.gensalt())
+
         sql_query = f"""
             INSERT INTO user (
                 first_name, last_name, age, e_mail, nif, code, user_password, 
                 balance, account_number, user_type, account_state
             ) VALUES (
                 '{first_name}', '{last_name}', {age}, '{e_mail}', {nif}, 
-                {random.randint(1000, 9999)}, '{user_password}', {balance}, 
+                {random.randint(1000, 9999)}, '{hash_password.decode("utf-8")}', {balance}, 
                 {self.generate_account_number()}, '{user_type}', 1
             ); 
             """
@@ -70,7 +76,8 @@ class User_Controller(SQLite_Connector):
         if user["user_password"] == admin_password:
             return Schema.api_response(
                 status=200,
-                data=self.execute_sql_query(f"""DELETE FROM user WHERE id={id}""", Schema.user),
+                data=self.execute_sql_query(
+                    f"""DELETE FROM user WHERE id={id}""", Schema.user),
                 success_message=[Success_Message.deleted_user.value]
             )
 
