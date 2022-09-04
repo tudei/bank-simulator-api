@@ -32,6 +32,16 @@ class Schema:
                 "transfer_date":dt[4], 
                 "transfer_code ":dt[5],      
             } for dt in data]
+
+    def withdrawal(data: tuple) -> list:
+        
+        return [
+            {
+                "id":dt[0],
+                "id_user":dt[1],
+                "amount":dt[2],
+                "withdrawal_date":dt[3]      
+            } for dt in data]
     
     @staticmethod
     def api_response(status: int, data=[], success_message=[], error_message=[]) -> list:
