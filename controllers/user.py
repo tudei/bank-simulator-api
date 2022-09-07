@@ -63,7 +63,7 @@ class User_Controller(SQLite_Connector):
                 error_message=[f"{get_error(error_suf[1])}"]
             )
 
-        new_user = self.get_user()[-1]
+        new_user = self.get_user()["data"][-1]
 
         return Schema.api_response(
             status=200,
