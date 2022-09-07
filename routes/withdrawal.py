@@ -17,7 +17,7 @@ class Withdrawals(Resource):
         super().__init__()
 
     def get(self):
-        return jsonify(withdrawal_controller.get_withdrawal())
+        return jsonify(withdrawal_controller.get_money_withdrawal())
 
     def post(self):
         args = request_put_args.parse_args()
@@ -34,7 +34,7 @@ class Withdrawal(Resource):
         super().__init__()
 
     def get(self, id):
-        return jsonify(withdrawal_controller.get_withdrawal(id))
+        return jsonify(withdrawal_controller.get_money_withdrawal(id))
 
   
 
