@@ -24,10 +24,10 @@ class User_Controller(SQLite_Connector):
             users = self.execute_sql_query(f"SELECT * FROM user", Schema.user)
 
         if id and not users:
-            return Schema.api_response(status=200, error_message=[
+            return Schema.api_response(status=404, error_message=[
                 Error_Message.user_not_exist.value])
         elif not id and not users:
-            return Schema.api_response(status=200,
+            return Schema.api_response(status=404,
                                        error_message=Error_Message.there_not_existent_users.value)
         return Schema.api_response(status=200, data=users)
 
